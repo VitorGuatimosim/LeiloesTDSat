@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -140,17 +143,50 @@ public class cadastroVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNomeActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        ProdutosDTO produto = new ProdutosDTO();
-        String nome = cadastroNome.getText();
-        String valor = cadastroValor.getText();
-        String status = "A Venda";
-        produto.setNome(nome);
-        produto.setValor(Integer.parseInt(valor));
-        produto.setStatus(status);
+        if(cadastroNome.getText().isEmpty() || cadastroValor.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, 
+                    "Por favor preencha todos os campos!", 
+                    "Mensagem de Erro", 
+                    JOptionPane.ERROR_MESSAGE);
+        }else{
         
-        ProdutosDAO produtodao = new ProdutosDAO();
-        produtodao.cadastrarProduto(produto);
-        
+            String strVerificador;
+            boolean verificador;
+
+            strVerificador = cadastroNome.getText();
+            verificador = strVerificador.matches("[a-zA-Z]{1,}");
+
+            if(!verificador){
+                JOptionPane.showMessageDialog(null,
+                    "Por favor preencha o nome corretamente. \nSomente letras",
+                    "Mensagem de Erro",
+                    JOptionPane.ERROR_MESSAGE);
+            }else{
+                strVerificador = cadastroValor.getText();
+                verificador = strVerificador.matches("[0-9]{1,}");
+
+                if(!verificador){
+                    JOptionPane.showMessageDialog(null,
+                        "Por favor preencha o valor corretamente. \nSomente números",
+                        "Mensagem de Erro",
+                        JOptionPane.ERROR_MESSAGE);
+                }else{
+                    ProdutosDTO produto = new ProdutosDTO();
+                    String nome = cadastroNome.getText();
+                    String valor = cadastroValor.getText();
+                    String status = "A Venda";
+                    produto.setNome(nome);
+                    produto.setValor(Integer.parseInt(valor));
+                    produto.setStatus(status);
+
+                    ProdutosDAO produtodao = new ProdutosDAO();
+                    produtodao.cadastrarProduto(produto);
+
+                    cadastroNome.setText("");
+                    cadastroValor.setText("");
+                }
+            }
+        }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutosActionPerformed
