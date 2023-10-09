@@ -34,7 +34,12 @@ public class ProdutosDAO {
             st.setString(2, produto.getValor().toString());
             st.setString(3, produto.getStatus());
             st.execute();
+            JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
         }catch(Exception e){
+            JOptionPane.showMessageDialog(null,
+                "Erro ao inserir! Por favor verifique os valores informados!",
+                "Mensagem de Erro",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
     
