@@ -20,7 +20,6 @@ public class ProdutosDAO {
     Connection conn;
     PreparedStatement prep;
     ResultSet resultset;
-    ArrayList<ProdutosDTO> listagem = new ArrayList<>();
     
     public ProdutosDAO(){
         conn = new conectaDAO().connectDB();
@@ -45,7 +44,34 @@ public class ProdutosDAO {
     
     public ArrayList<ProdutosDTO> listarProdutos(){
         
-        return listagem;
+        String sql = "SELECT * FROM produto"; 
+
+        try {
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();            
+            
+            ArrayList<ProdutosDTO> listagem = new ArrayList<>();
+            
+            while(rs.next()){
+                
+                ProdutosDTO produto = new ProdutosDTO();
+                produto.setId(rs.getInt("id"));
+                produto.setNome(rs.getString("nome"));
+                produto.setValor(rs.getInt("valor"));
+                produto.setStatus(rs.getString("status"));
+
+                listagem.add(produto);
+            }
+            return listagem;
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                "Erro! Não foi encontrado nenhum produto!",
+                "Mensagem de Erro",
+                JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
     }
     
     
