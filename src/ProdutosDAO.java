@@ -42,6 +42,22 @@ public class ProdutosDAO {
         }
     }
     
+    public void venderProduto(int id){
+        String sql = "UPDATE produto SET status = (?) WHERE id = ?;";
+        try{
+            PreparedStatement st = this.conn.prepareStatement(sql);
+            st.setString(1, "Vendido");
+            st.setInt(2, id);
+            st.execute();
+            JOptionPane.showMessageDialog(null, "Produto vendido com sucesso!");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,
+                "Erro ao atualizar! Por favor verifique os valores informados!",
+                "Mensagem de Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     public ArrayList<ProdutosDTO> listarProdutos(){
         
         String sql = "SELECT * FROM produto"; 
@@ -73,9 +89,5 @@ public class ProdutosDAO {
             return null;
         }
     }
-    
-    
-    
-        
 }
 
